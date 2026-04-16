@@ -3,14 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EduVault</title>
+    <title>EduVault | University Notes</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    
-    
-  <link rel="icon" type="image/png" href="orange.png">
-  
-  <link rel="apple-touch-icon" href="orange.png">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" type="image/png" href="orange.png" />
+    <link rel="apple-touch-icon" href="orange.png" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
       tailwind.config = { darkMode: "class" };
     </script>
@@ -21,7 +25,9 @@
         scroll-behavior: smooth;
       }
       .transition-theme {
-        transition: background-color 0.4s ease, color 0.4s ease;
+        transition:
+          background-color 0.4s ease,
+          color 0.4s ease;
       }
       .tab-btn {
         position: relative;
@@ -68,17 +74,30 @@
       }
     </style>
   </head>
-  <body class="bg-slate-50 text-slate-900 dark:bg-[#020617] dark:text-slate-100 transition-theme min-h-screen">
-    
-    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#020617]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-      <div class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex justify-between items-center">
-        <div class="flex items-center space-x-2 cursor-pointer" onclick="goHome()">
-          <i class="fa-solid fa-graduation-cap text-blue-600 text-xl md:text-2xl"></i>
+  <body
+    class="bg-slate-50 text-slate-900 dark:bg-[#020617] dark:text-slate-100 transition-theme min-h-screen"
+  >
+    <nav
+      class="sticky top-0 z-50 bg-white/80 dark:bg-[#020617]/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 md:px-6 h-16 flex justify-between items-center"
+      >
+        <div
+          class="flex items-center space-x-2 cursor-pointer"
+          onclick="goHome()"
+        >
+          <i
+            class="fa-solid fa-graduation-cap text-blue-600 text-xl md:text-2xl"
+          ></i>
           <h1 class="font-bold text-lg md:text-xl tracking-tight">
             Edu<span class="text-blue-600">Vault</span>
           </h1>
         </div>
-        <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800">
+        <button
+          onclick="toggleTheme()"
+          class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800"
+        >
           <i id="theme-icon" class="fa-solid fa-moon text-slate-500"></i>
         </button>
       </div>
@@ -86,132 +105,195 @@
 
     <main id="home-page" class="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12">
       <header class="mb-8 md:mb-16">
-        <h2 class="text-3xl md:text-6xl font-extrabold tracking-tight mb-4 leading-tight">
+        <h2
+          class="text-3xl md:text-6xl font-extrabold tracking-tight mb-4 leading-tight"
+        >
           Master Your <span class="text-blue-600">Semester.</span>
         </h2>
-        <p class="text-slate-500 dark:text-slate-400 text-base md:text-xl max-w-2xl leading-relaxed">
-          Handwritten notes, PYQs, and curated video lectures for B.Tech CSE.
+        <p
+          class="text-slate-500 dark:text-slate-400 text-base md:text-xl max-w-2xl leading-relaxed"
+        >
+          Dynamic notes, PYQs, and curated lectures directly from the EduVault
+          cloud.
         </p>
       </header>
 
-      <div class="flex gap-6 md:gap-10 border-b border-slate-200 dark:border-slate-800 mb-8 overflow-x-auto no-scrollbar pb-1">
-        <button onclick="renderHome(1)" id="sem-1" class="tab-btn active pb-4 font-extrabold text-lg md:text-xl whitespace-nowrap">Sem I</button>
-        <button onclick="renderHome(2)" id="sem-2" class="tab-btn pb-4 font-extrabold text-lg md:text-xl text-slate-400 whitespace-nowrap">Sem II</button>
-        <button onclick="renderHome(3)" id="sem-3" class="tab-btn pb-4 font-extrabold text-lg md:text-xl text-slate-400 whitespace-nowrap">Sem III</button>
-        <button onclick="renderHome(4)" id="sem-4" class="tab-btn pb-4 font-extrabold text-lg md:text-xl text-slate-400 whitespace-nowrap">Sem IV</button>
+      <div
+        class="flex gap-6 md:gap-10 border-b border-slate-200 dark:border-slate-800 mb-8 overflow-x-auto no-scrollbar pb-1"
+      >
+        <button
+          onclick="renderHome(1)"
+          id="sem-1"
+          class="tab-btn active pb-4 font-extrabold text-lg md:text-xl whitespace-nowrap"
+        >
+          Sem I
+        </button>
+        <button
+          onclick="renderHome(2)"
+          id="sem-2"
+          class="tab-btn pb-4 font-extrabold text-lg md:text-xl text-slate-400 whitespace-nowrap"
+        >
+          Sem II
+        </button>
+        <button
+          onclick="renderHome(3)"
+          id="sem-3"
+          class="tab-btn pb-4 font-extrabold text-lg md:text-xl text-slate-400 whitespace-nowrap"
+        >
+          Sem III
+        </button>
+        <button
+          onclick="renderHome(4)"
+          id="sem-4"
+          class="tab-btn pb-4 font-extrabold text-lg md:text-xl text-slate-400 whitespace-nowrap"
+        >
+          Sem IV
+        </button>
       </div>
 
-      <div id="subject-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 items-stretch">
-      </div>
+      <div
+        id="subject-grid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 items-stretch"
+      ></div>
     </main>
 
-    <main id="detail-page" class="hidden max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12">
-      <button onclick="goHome()" class="mb-6 flex items-center text-blue-600 font-bold hover:gap-3 transition-all text-sm md:text-base">
+    <main
+      id="detail-page"
+      class="hidden max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12"
+    >
+      <button
+        onclick="goHome()"
+        class="mb-6 flex items-center text-blue-600 font-bold hover:gap-3 transition-all text-sm md:text-base"
+      >
         <i class="fa-solid fa-arrow-left mr-2"></i> Back to Dashboard
       </button>
 
       <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-        <div class="w-full lg:w-1/3 lg:sticky lg:top-24 bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="w-12 h-12 md:w-16 md:h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center mb-4 md:mb-6">
+        <div
+          class="w-full lg:w-1/3 lg:sticky lg:top-24 bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm"
+        >
+          <div
+            class="w-12 h-12 md:w-16 md:h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center mb-4 md:mb-6"
+          >
             <i class="fa-solid fa-book-open-reader text-xl md:text-2xl"></i>
           </div>
-          <h2 id="detail-title" class="text-2xl md:text-3xl font-black mb-4 leading-tight"></h2>
-          <div class="flex items-center gap-2 text-green-500 font-bold text-xs md:text-sm mb-6">
-            <i class="fa-solid fa-circle-check"></i> Verified Content 2026
+          <h2
+            id="detail-title"
+            class="text-2xl md:text-3xl font-black mb-4 leading-tight"
+          ></h2>
+          <div
+            class="flex items-center gap-2 text-green-500 font-bold text-xs md:text-sm mb-6"
+          >
+            <i class="fa-solid fa-circle-check"></i> Cloud Verified 2026
           </div>
           <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
-            Complete unit-wise resources and previous year papers for your preparation.
+            Unit-wise resources fetched dynamically from Supabase.
           </p>
         </div>
 
         <div class="w-full lg:w-2/3">
-          <div class="flex gap-1 md:gap-2 p-1 bg-slate-200 dark:bg-slate-800 rounded-xl md:rounded-2xl mb-6 overflow-x-auto no-scrollbar">
-            <button onclick="switchSubTab('notes')" id="btn-notes" class="sub-tab active flex-1 py-3 px-2 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all whitespace-nowrap">Notes</button>
-            <button onclick="switchSubTab('pyqs')" id="btn-pyqs" class="sub-tab flex-1 py-3 px-2 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all whitespace-nowrap">PYQs</button>
-            <button onclick="switchSubTab('lectures')" id="btn-lectures" class="sub-tab flex-1 py-3 px-2 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all whitespace-nowrap">Lectures</button>
+          <div
+            class="flex gap-1 md:gap-2 p-1 bg-slate-200 dark:bg-slate-800 rounded-xl md:rounded-2xl mb-6 overflow-x-auto no-scrollbar"
+          >
+            <button
+              onclick="switchSubTab('notes')"
+              id="btn-notes"
+              class="sub-tab active flex-1 py-3 px-2 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all whitespace-nowrap"
+            >
+              Notes
+            </button>
+            <button
+              onclick="switchSubTab('pyqs')"
+              id="btn-pyqs"
+              class="sub-tab flex-1 py-3 px-2 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all whitespace-nowrap"
+            >
+              PYQs
+            </button>
+            <button
+              onclick="switchSubTab('lectures')"
+              id="btn-lectures"
+              class="sub-tab flex-1 py-3 px-2 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all whitespace-nowrap"
+            >
+              Lectures
+            </button>
           </div>
           <div id="tab-content" class="space-y-3 md:space-y-4"></div>
         </div>
       </div>
     </main>
 
-    <footer class="max-w-6xl mx-auto px-6 py-12 border-t border-slate-200 dark:border-slate-800 text-center">
+    <footer
+      class="max-w-6xl mx-auto px-6 py-12 border-t border-slate-200 dark:border-slate-800 text-center"
+    >
       <p class="text-slate-400 text-xs md:text-sm font-medium">
-        © 2026 EduVault Resources. Designed and developed by Sumit.
+        © 2026 EduVault Resources. Powered by Supabase & Vercel.
       </p>
     </footer>
 
     <script>
-      const syllabusData = {
-        1: [
-          { name: "Engineering Mathematics-I", units: ["Differential Calculus", "Linear Algebra", "Multiple Integrals", "Vector Calculus"] },
-          { name: "Engineering Physics-I", units: ["Basics of Relativity", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Introduction to C", units: ["Basic Terminology & Standard Library", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Electrical Engineering", units: ["Network & Circuit Concepts", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Professional Communication", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Environment & Ecology", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-        ],
-        2: [
-          { name: "Engineering Mathematics-II", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Engineering Physics-II", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Graph Theory", units: ["Basic Definitions", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Object Oriented Modeling & C++", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Humanities", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Electronics Engineering", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-        ],
-        3: [
-          { name: "Discrete Mathematics", units: ["Sets, Functions & Relations", "Group Theory Properties", "Unit 3", "Unit 4"] },
-          { name: "Applied Computational Methods", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Digital Circuits", units: ["Binary Codes & Boolean Expressions", "K-Map Reduction", "Unit 3", "Unit 4"] },
-          { name: "Data Structures through C/C++", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Internet & JAVA Programming", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Software Engineering (SWE)", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-        ],
-        4: [
-          { name: "Optimization Techniques", units: ["Classical Optimization", "Linear Programming", "Unit 3", "Unit 4"] },
-          { name: "Management Information System", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Database Management Systems", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-          { name: "Theory of Computation", units: ["Unit 1", "Unit 2", "Unit 3", "Turing Machines"] },
-          { name: "Computer Organization", units: ["RTL & Bus Architecture", "Control & Processor Design", "Arithmetic Operations", "I/O & Memory Organization"] },
-          { name: "Microprocessors", units: ["Unit 1", "Unit 2", "Unit 3", "Unit 4"] },
-        ],
-      };
+      // 1. SUPABASE CONFIGURATION
+      const supabaseUrl = "https://czqiszxboldfuqeeyqiz.supabase.co";
+      const supabaseKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cWlzenhib2xkZnVxZWV5cWl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDU2MjgsImV4cCI6MjA5MTkyMTYyOH0.HTliya4-GKOxFD3K0pGyPNhexoK-mtd9wpFpWLkYNpU";
+      const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
       let activeSubject = null;
 
-      function renderHome(sem) {
+      // 2. RENDER HOME (FETCH DATA)
+      async function renderHome(sem) {
         const grid = document.getElementById("subject-grid");
-        grid.innerHTML = "";
-        
-        // Tab UI update
+
+        // Loader UI
+        grid.innerHTML = `
+          <div class="col-span-full py-20 text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p class="text-slate-500 font-bold animate-pulse tracking-widest uppercase text-xs">Syncing Database...</p>
+          </div>`;
+
+        // Tab UI
         document.querySelectorAll(".tab-btn").forEach((btn) => {
           btn.classList.remove("active");
           btn.classList.add("text-slate-400");
         });
         const activeTab = document.getElementById(`sem-${sem}`);
-        activeTab.classList.add("active");
-        activeTab.classList.remove("text-slate-400");
+        if (activeTab) {
+          activeTab.classList.add("active");
+          activeTab.classList.remove("text-slate-400");
+        }
 
-        syllabusData[sem].forEach((subject) => {
+        // FETCH FROM SUPABASE
+        const { data: Subjects, error } = await _supabase
+          .from("Subjects")
+          .select("*")
+          .eq("semester", sem);
+
+        if (error) {
+          grid.innerHTML = `<div class="col-span-full text-center text-red-500 font-bold">Failed to load Subjects.</div>`;
+          return;
+        }
+
+        grid.innerHTML = "";
+        Subjects.forEach((subject) => {
           const card = document.createElement("div");
-          // Flex-col and h-full ensures the card fills the grid height
-          card.className = "subject-card p-6 md:p-8 rounded-3xl cursor-pointer bg-white dark:bg-[#0f172a] h-full transition-all";
+          card.className =
+            "subject-card p-6 md:p-8 rounded-3xl cursor-pointer bg-white dark:bg-[#0f172a] h-full";
           card.onclick = () => openSubject(subject);
           card.innerHTML = `
-            <div class="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-xl flex items-center justify-center mb-4 shrink-0">
-                <i class="fa-solid fa-folder-open text-lg"></i>
-            </div>
-            <div class="flex-grow">
-                <h3 class="font-extrabold text-lg md:text-xl text-slate-800 dark:text-slate-100 leading-tight">
-                  ${subject.name}
-                </h3>
-            </div>
-            <div class="mt-6 pt-4 border-t border-slate-50 dark:border-slate-800/50">
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center">
-                  Explore Resources <i class="fa-solid fa-arrow-right ml-2"></i>
-                </p>
-            </div>
-          `;
+            <div class="flex flex-col h-full">
+              <span class="text-[9px] text-blue-500 font-black uppercase tracking-widest mb-2">${subject.paper_code || "CS-CORE"}</span>
+              <div class="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-xl flex items-center justify-center mb-4 shrink-0">
+                  <i class="fa-solid fa-folder-open text-lg"></i>
+              </div>
+              <div class="flex-grow">
+                  <h3 class="font-extrabold text-lg md:text-xl text-slate-800 dark:text-slate-100 leading-tight">
+                    ${subject.subject_name}
+                  </h3>
+              </div>
+              <div class="mt-6 pt-4 border-t border-slate-50 dark:border-slate-800/50 flex justify-between items-center">
+                  <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Resources Available</p>
+                  <i class="fa-solid fa-arrow-right text-blue-600"></i>
+              </div>
+            </div>`;
           grid.appendChild(card);
         });
       }
@@ -220,7 +302,8 @@
         activeSubject = subject;
         document.getElementById("home-page").classList.add("hidden");
         document.getElementById("detail-page").classList.remove("hidden");
-        document.getElementById("detail-title").innerText = subject.name;
+        document.getElementById("detail-title").innerText =
+          subject.subject_name;
         switchSubTab("notes");
         window.scrollTo(0, 0);
       }
@@ -232,49 +315,53 @@
       }
 
       function switchSubTab(type) {
-        document.querySelectorAll(".sub-tab").forEach((tab) => tab.classList.remove("active"));
+        document
+          .querySelectorAll(".sub-tab")
+          .forEach((tab) => tab.classList.remove("active"));
         document.getElementById(`btn-${type}`).classList.add("active");
         const container = document.getElementById("tab-content");
         container.innerHTML = "";
 
+        // Handle JSON unit list
+        const units = Array.isArray(activeSubject.unit_list)
+          ? activeSubject.unit_list
+          : JSON.parse(activeSubject.unit_list || "[]");
+
         if (type === "notes") {
-          activeSubject.units.forEach((uName, index) => {
+          units.forEach((uName, index) => {
             container.innerHTML += `
               <div class="flex justify-between items-center p-4 md:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-3xl shadow-sm hover:border-blue-500 transition-all">
                   <div class="flex items-center gap-3 md:gap-5">
-                      <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-600 text-white flex items-center justify-center rounded-xl md:rounded-2xl font-black text-xs md:text-sm">U${index + 1}</div>
+                      <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-600 text-white flex items-center justify-center rounded-xl font-black text-xs">U${index + 1}</div>
                       <div>
                           <h4 class="font-bold text-slate-800 dark:text-slate-100 text-xs md:text-base leading-tight">${uName}</h4>
-                          <p class="text-[8px] md:text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Handwritten PDF</p>
+                          <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Study Material</p>
                       </div>
                   </div>
-                  <button class="bg-slate-900 dark:bg-blue-600 text-white px-3 md:px-5 py-2 md:py-2.5 rounded-xl md:rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest ml-2">Buy ₹20</button>
+                  <button onclick="window.open('https://rzp.io/l/your_link', '_blank')" class="bg-slate-900 dark:bg-blue-600 text-white px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest">Buy ₹20</button>
               </div>`;
           });
         } else if (type === "pyqs") {
-          ["2025 Regular", "2024 Regular", "2023 Carry Over", "2022 Regular"].forEach((year) => {
+          ["2025 Regular", "2024 Regular"].forEach((year) => {
             container.innerHTML += `
-              <div class="flex justify-between items-center p-4 md:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-3xl shadow-sm">
-                  <div class="flex items-center gap-3 md:gap-5">
-                      <i class="fa-solid fa-file-pdf text-red-500 text-xl md:text-2xl"></i>
-                      <span class="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-base">${year} Exam Paper</span>
+              <div class="flex justify-between items-center p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm">
+                  <div class="flex items-center gap-5">
+                      <i class="fa-solid fa-file-invoice text-blue-500 text-2xl"></i>
+                      <span class="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-base">${year} Paper</span>
                   </div>
-                  <button class="text-blue-600 font-black text-[10px] md:text-xs uppercase hover:underline ml-2">Download</button>
+                  <button class="text-blue-600 font-black text-xs uppercase hover:underline">Download</button>
               </div>`;
           });
         } else if (type === "lectures") {
-          activeSubject.units.forEach((uName, index) => {
-            const ytSearch = `https://www.youtube.com/results?search_query=${encodeURIComponent(activeSubject.name + " " + uName + " lecture")}`;
+          units.forEach((uName) => {
+            const yt = `https://www.youtube.com/results?search_query=${encodeURIComponent(activeSubject.subject_name + " " + uName)}`;
             container.innerHTML += `
-              <div class="flex justify-between items-center p-4 md:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl md:rounded-3xl shadow-sm">
-                  <div class="flex items-center gap-3 md:gap-5">
-                      <i class="fa-brands fa-youtube text-red-600 text-3xl md:text-4xl"></i>
-                      <div>
-                          <h4 class="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-base leading-tight">${uName} Video</h4>
-                          <span class="text-[8px] md:text-[10px] text-green-500 font-black tracking-tighter uppercase">Curated</span>
-                      </div>
+              <div class="flex justify-between items-center p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm">
+                  <div class="flex items-center gap-5">
+                      <i class="fa-brands fa-youtube text-red-600 text-4xl"></i>
+                      <h4 class="font-bold text-slate-700 dark:text-slate-200 text-xs md:text-base">${uName} Video</h4>
                   </div>
-                  <a href="${ytSearch}" target="_blank" class="text-slate-400 font-black text-[10px] md:text-xs uppercase hover:text-blue-600 underline ml-2">Watch</a>
+                  <a href="${yt}" target="_blank" class="text-slate-400 font-black text-xs uppercase hover:text-blue-600 underline">Watch</a>
               </div>`;
           });
         }
@@ -287,7 +374,7 @@
           : "fa-solid fa-moon text-slate-500";
       }
 
-      // Initial render
+      // Start on Semester 1
       renderHome(1);
     </script>
   </body>
