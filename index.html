@@ -3,18 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EduVault | University Notes</title>
+    <title>EduVault</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
-
-    <link rel="icon" type="image/png" href="orange.png" />
-    <link rel="apple-touch-icon" href="orange.png" />
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+   <link rel="icon" type="image/png" href="orange.png" />
+    <link rel="apple-touch-icon" href="orange.png" />
     <script>
       tailwind.config = { darkMode: "class" };
     </script>
@@ -49,8 +46,6 @@
       .subject-card {
         border: 1px solid #e2e8f0;
         transition: all 0.3s ease;
-        display: flex;
-        flex-direction: column;
       }
       .dark .subject-card {
         border-color: #1e293b;
@@ -103,49 +98,113 @@
       </div>
     </nav>
 
+    <div
+      id="payment-modal"
+      class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md p-4"
+    >
+      <div
+        class="bg-white dark:bg-slate-900 w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl border border-slate-200 dark:border-slate-800 transform transition-all overflow-hidden relative"
+      >
+        <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+        <div class="text-center mb-8">
+          <div
+            class="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-4 rotate-3"
+          >
+            <i class="fa-solid fa-receipt text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-black mb-1">Order Process</h3>
+          <p class="text-slate-500 text-sm">Follow these steps to get access</p>
+        </div>
+
+        <div class="space-y-6 mb-8">
+          <div class="flex items-center gap-4">
+            <div
+              class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold"
+            >
+              1
+            </div>
+            <p class="text-sm font-medium">
+              Join our Group/Chat and check the **Pinned UPI ID**.
+            </p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div
+              class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold"
+            >
+              2
+            </div>
+            <p class="text-sm font-medium">
+              Send **₹20** and share the screenshot in chat.
+            </p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div
+              class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold"
+            >
+              3
+            </div>
+            <p class="text-sm font-medium">
+              Mention your **Gmail ID** to receive access.
+            </p>
+          </div>
+        </div>
+
+        <button
+          id="confirm-pay-btn"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-500/30 transition-all active:scale-95 mb-3"
+        >
+          I Understand, Let's Go
+        </button>
+        <button
+          onclick="closeModal()"
+          class="w-full text-slate-400 text-xs font-bold py-2 hover:text-red-500 transition-colors"
+        >
+          Maybe Later
+        </button>
+      </div>
+    </div>
+
     <main id="home-page" class="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12">
-      <header class="mb-8 md:mb-16">
+      <header class="mb-12">
         <h2
-          class="text-3xl md:text-6xl font-extrabold tracking-tight mb-4 leading-tight"
+          class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 leading-tight"
         >
           Master Your <span class="text-blue-600">Semester.</span>
         </h2>
-        <p
-          class="text-slate-500 dark:text-slate-400 text-base md:text-xl max-w-2xl leading-relaxed"
-        >
-          Get high-quality handwritten notes and PYQs. Secure access shared
-          directly to your Email.
+        <p class="text-slate-500 dark:text-slate-400 text-lg max-w-2xl">
+          High-quality handwritten notes and PYQs. Access shared directly to
+          your Email via secure Google Drive links.
         </p>
       </header>
 
       <div
-        class="flex gap-6 md:gap-10 border-b border-slate-200 dark:border-slate-800 mb-8 overflow-x-auto no-scrollbar pb-1"
+        class="flex gap-6 border-b border-slate-200 dark:border-slate-800 mb-8 overflow-x-auto no-scrollbar pb-1"
       >
         <button
           onclick="renderHome(1)"
           id="sem-1"
-          class="tab-btn active pb-4 font-extrabold text-lg md:text-xl whitespace-nowrap"
+          class="tab-btn active pb-4 font-extrabold text-lg whitespace-nowrap"
         >
           Sem I
         </button>
         <button
           onclick="renderHome(2)"
           id="sem-2"
-          class="tab-btn pb-4 font-extrabold text-lg md:text-xl text-slate-400 whitespace-nowrap"
+          class="tab-btn pb-4 font-extrabold text-lg text-slate-400 whitespace-nowrap"
         >
           Sem II
         </button>
         <button
           onclick="renderHome(3)"
           id="sem-3"
-          class="tab-btn pb-4 font-extrabold text-lg md:text-xl text-slate-400 whitespace-nowrap"
+          class="tab-btn pb-4 font-extrabold text-lg text-slate-400 whitespace-nowrap"
         >
           Sem III
         </button>
         <button
           onclick="renderHome(4)"
           id="sem-4"
-          class="tab-btn pb-4 font-extrabold text-lg md:text-xl text-slate-400 whitespace-nowrap"
+          class="tab-btn pb-4 font-extrabold text-lg text-slate-400 whitespace-nowrap"
         >
           Sem IV
         </button>
@@ -153,7 +212,7 @@
 
       <div
         id="subject-grid"
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 items-stretch"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
       ></div>
     </main>
 
@@ -163,201 +222,211 @@
     >
       <button
         onclick="goHome()"
-        class="mb-6 flex items-center text-blue-600 font-bold hover:gap-3 transition-all text-sm md:text-base group"
+        class="mb-8 flex items-center text-blue-600 font-bold hover:gap-3 transition-all"
       >
-        <i
-          class="fa-solid fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"
-        ></i>
-        Back to Dashboard
+        <i class="fa-solid fa-arrow-left mr-2"></i> Dashboard
       </button>
 
-      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-        <div
-          class="w-full lg:w-1/3 lg:sticky lg:top-24 bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm"
-        >
+      <div class="flex flex-col lg:flex-row gap-12">
+        <div class="w-full lg:w-1/3 lg:sticky lg:top-24">
           <div
-            class="w-12 h-12 md:w-16 md:h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center mb-4 md:mb-6"
-          >
-            <i class="fa-solid fa-shield-halved text-xl md:text-2xl"></i>
-          </div>
+            id="subject-image-container"
+            class="w-full aspect-square rounded-[2rem] overflow-hidden mb-6 shadow-xl border border-slate-200 dark:border-slate-800 bg-slate-200 dark:bg-slate-800"
+          ></div>
           <h2
             id="detail-title"
-            class="text-2xl md:text-3xl font-black mb-4 leading-tight"
+            class="text-3xl font-black mb-4 leading-tight"
           ></h2>
           <div
-            class="flex items-center gap-2 text-green-500 font-bold text-xs md:text-sm mb-6"
+            class="flex items-center gap-2 text-green-500 font-bold text-sm mb-6"
           >
-            <i class="fa-solid fa-circle-check"></i> Encrypted Email Access
-          </div>
-          <div class="space-y-4">
-            <p
-              class="text-slate-500 dark:text-slate-400 text-xs leading-relaxed italic"
-            >
-              * Note: Upon purchase, access will be granted to your Gmail ID
-              within 5-10 minutes.
-            </p>
-            <div
-              class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700"
-            >
-              <p class="text-[10px] text-slate-400 font-bold uppercase mb-2">
-                How it works:
-              </p>
-              <ol
-                class="text-[10px] text-slate-500 dark:text-slate-400 space-y-1"
-              >
-                <li>1. Pay via UPI QR on WhatsApp.</li>
-                <li>2. Provide your Gmail ID.</li>
-                <li>3. Receive private Drive Link.</li>
-              </ol>
-            </div>
+            <i class="fa-solid fa-circle-check"></i> Verified Content
           </div>
         </div>
 
         <div class="w-full lg:w-2/3">
           <div
-            class="flex gap-1 md:gap-2 p-1 bg-slate-200 dark:bg-slate-800 rounded-xl md:rounded-2xl mb-6 overflow-x-auto no-scrollbar"
+            class="flex gap-2 p-1.5 bg-slate-200 dark:bg-slate-800 rounded-2xl mb-6"
           >
             <button
               onclick="switchSubTab('notes')"
               id="btn-notes"
-              class="sub-tab active flex-1 py-3 px-2 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all"
+              class="sub-tab active flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all"
             >
               Notes
             </button>
             <button
               onclick="switchSubTab('pyqs')"
               id="btn-pyqs"
-              class="sub-tab flex-1 py-3 px-2 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all"
+              class="sub-tab flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all"
             >
               PYQs
             </button>
             <button
               onclick="switchSubTab('lectures')"
               id="btn-lectures"
-              class="sub-tab flex-1 py-3 px-2 rounded-lg md:rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest transition-all"
+              class="sub-tab flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all"
             >
               Lectures
             </button>
           </div>
-          <div id="tab-content" class="space-y-3 md:space-y-4"></div>
+          <div id="tab-content" class="space-y-4"></div>
         </div>
       </div>
     </main>
-
-    <footer
-      class="max-w-6xl mx-auto px-6 py-12 border-t border-slate-200 dark:border-slate-800 text-center"
-    >
+<footer class="max-w-6xl mx-auto px-6 py-12 border-t border-slate-200 dark:border-slate-800 text-center">
       <p class="text-slate-400 text-xs md:text-sm font-medium">
-       © 2026 EduVault Resources. All rights reserved. Designed and developed by Sumit.
+        © 2026 EduVault Resources. All rights reserved. Designed and developed by Sumit.
       </p>
-      <!-- <div class="mt-4 flex justify-center gap-4">
-        <a href="#" class="text-slate-400 hover:text-blue-600 transition-colors"
-          ><i class="fa-brands fa-instagram text-xl"></i
-        ></a>
-        <a
-          href=""
-          class="text-slate-400 hover:text-green-500 transition-colors"
-          ><i class="fa-brands fa-whatsapp text-xl"></i
-        ></a>
-      </div> -->
     </footer>
-
     <script>
-  // 1. CONFIGURATION (Edit these three)
-  const myWhatsAppNumber = "917668054747"; // Your number with 91
-  const myUPI_ID = "7668054747@ibl";    // Your UPI ID
-  const supabaseUrl = 'https://czqiszxboldfuqeeyqiz.supabase.co';
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cWlzenhib2xkZnVxZWV5cWl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDU2MjgsImV4cCI6MjA5MTkyMTYyOH0.HTliya4-GKOxFD3K0pGyPNhexoK-mtd9wpFpWLkYNpU";
-  
-  // Initialize Supabase
-  const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
-  let activeSubject = null;
+      // 1. CONFIGURATION
+      const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/J7jmN46udqX8z3V3MOP1Te?mode=gi_t"; // Use Group Link instead of Number
+      const myUPI_ID = "vss@okaxis";
+      const supabaseUrl = 'https://czqiszxboldfuqeeyqiz.supabase.co';
+      const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cWlzenhib2xkZnVxZWV5cWl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDU2MjgsImV4cCI6MjA5MTkyMTYyOH0.HTliya4-GKOxFD3K0pGyPNhexoK-mtd9wpFpWLkYNpU";
 
-  // 2. RENDER DASHBOARD
-  async function renderHome(sem) {
-    const grid = document.getElementById("subject-grid");
-    grid.innerHTML = `<div class="col-span-full py-20 text-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div></div>`;
-    
-    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active", "text-slate-900", "dark:text-white"));
-    document.getElementById(`sem-${sem}`).classList.add("active", "text-slate-900", "dark:text-white");
+      const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    const { data: Subjects, error } = await _supabase.from('Subjects').select('*').eq('semester', sem);
-    if (error) { grid.innerHTML = `<p class="text-red-500 text-center col-span-full">Check Supabase Connection.</p>`; return; }
+      let activeSubject = null;
+      let pendingLink = "";
 
-    grid.innerHTML = "";
-    Subjects.forEach((sub) => {
-      const card = document.createElement("div");
-      card.className = "subject-card p-6 rounded-3xl cursor-pointer bg-white dark:bg-slate-900 transition-all";
-      card.onclick = () => openSubject(sub);
-      card.innerHTML = `
-        <span class="text-[10px] text-blue-500 font-bold uppercase">${sub.paper_code || 'UNIT-WISE'}</span>
-        <h3 class="font-bold text-lg mt-2">${sub.subject_name}</h3>
-        <div class="mt-4 text-blue-600 text-sm font-bold">View Resources →</div>`;
-      grid.appendChild(card);
-    });
-  }
+      // 2. DASHBOARD
+      async function renderHome(sem) {
+        const grid = document.getElementById("subject-grid");
+        grid.innerHTML = `<div class="col-span-full py-20 text-center"><div class="animate-spin h-10 w-10 border-b-2 border-blue-600 mx-auto"></div></div>`;
 
-  function openSubject(subject) {
-    activeSubject = subject;
-    document.getElementById("home-page").classList.add("hidden");
-    document.getElementById("detail-page").classList.remove("hidden");
-    document.getElementById("detail-title").innerText = subject.subject_name;
-    switchSubTab("notes");
-  }
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) =>
+            btn.classList.remove("active", "text-slate-900", "dark:text-white"),
+          );
+        document
+          .getElementById(`sem-${sem}`)
+          .classList.add("active", "text-slate-900", "dark:text-white");
 
-  function goHome() {
-    document.getElementById("home-page").classList.remove("hidden");
-    document.getElementById("detail-page").classList.add("hidden");
-  }
+        const { data: Subjects, error } = await _supabase
+          .from("Subjects")
+          .select("*")
+          .eq("semester", sem);
+        if (error) return;
 
-  // 3. THE "RENDER CONTENT" LOGIC (Fixed for Notes, UPI, and Lectures)
-  function switchSubTab(type) {
-    document.querySelectorAll(".sub-tab").forEach(tab => tab.classList.remove("active"));
-    document.getElementById("btn-" + type).classList.add("active");
-    const container = document.getElementById("tab-content");
-    container.innerHTML = "";
+        grid.innerHTML = "";
+        Subjects.forEach((sub) => {
+          const card = document.createElement("div");
+          card.className =
+            "subject-card p-8 rounded-[2rem] cursor-pointer bg-white dark:bg-[#0f172a]";
+          card.onclick = () => openSubject(sub);
+          card.innerHTML = `
+            <span class="text-[10px] text-blue-500 font-black uppercase tracking-widest mb-2 block">${sub.paper_code || "B.TECH"}</span>
+            <h3 class="font-bold text-xl mb-4 leading-tight">${sub.subject_name}</h3>
+            <div class="text-blue-600 text-sm font-bold flex items-center gap-2">Study Now <i class="fa-solid fa-chevron-right text-[10px]"></i></div>`;
+          grid.appendChild(card);
+        });
+      }
 
-    let units = [];
-    try {
-      units = Array.isArray(activeSubject.unit_list) ? activeSubject.unit_list : JSON.parse(activeSubject.unit_list || "[]");
-    } catch (e) { console.error(e); }
+      function openSubject(subject) {
+        activeSubject = subject;
+        document.getElementById("home-page").classList.add("hidden");
+        document.getElementById("detail-page").classList.remove("hidden");
+        document.getElementById("detail-title").innerText =
+          subject.subject_name;
 
-    if (type === "notes") {
-      units.forEach((uName, index) => {
-        const msg = `Hi Sumit! I want: ${activeSubject.subject_name} (Unit ${index + 1})\n\n💰 Price: ₹20\n🏦 UPI ID: ${myUPI_ID}\n\nMy Gmail for access is: `;
-        const waLink = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(msg)}`;
-        
-        container.innerHTML += `
-          <div class="flex justify-between items-center p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl">
-            <div>
-              <h4 class="font-bold text-sm">Unit ${index + 1}: ${uName}</h4>
-              <p class="text-[10px] text-slate-400 font-bold uppercase mt-1">₹20 per Unit</p>
-            </div>
-            <a href="${waLink}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase flex items-center gap-2">
-              <i class="fa-brands fa-whatsapp"></i> Buy
-            </a>
-          </div>`;
-      });
-    } else if (type === "pyqs") {
-      container.innerHTML = `<p class="text-center py-10 text-slate-400">Papers will be uploaded shortly.</p>`;
-    } else if (type === "lectures") {
-      units.forEach((uName, index) => {
-        const yt = `https://www.youtube.com/results?search_query=${encodeURIComponent(activeSubject.subject_name + " " + uName + " lecture")}`;
-        container.innerHTML += `
-          <div class="flex justify-between items-center p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl">
-            <h4 class="font-bold text-sm">Unit ${index + 1} Video</h4>
-            <a href="${yt}" target="_blank" class="text-red-600 font-bold text-[10px] uppercase">Watch Free</a>
-          </div>`;
-      });
-    }
-  }
+        // Image Handling (Fix for point 2)
+        const imgContainer = document.getElementById("subject-image-container");
+        if (subject.image_url) {
+          imgContainer.innerHTML = `<img src="${subject.image_url}" class="w-full h-full object-cover" alt="subject">`;
+        } else {
+          imgContainer.innerHTML = `<div class="w-full h-full flex items-center justify-center text-blue-600/20"><i class="fa-solid fa-book-open text-8xl"></i></div>`;
+        }
 
-  function toggleTheme() {
-    const isDark = document.documentElement.classList.toggle("dark");
-    document.getElementById("theme-icon").className = isDark ? "fa-solid fa-sun text-yellow-500" : "fa-solid fa-moon text-slate-500";
-  }
+        switchSubTab("notes");
+        window.scrollTo(0, 0);
+      }
+      // This goes inside your openSubject(subject) function
+const imgContainer = document.getElementById("subject-image-container");
+if(subject.image_url) {
+    // 'object-cover' is the secret to keeping it perfectly sized
+    imgContainer.innerHTML = `<img src="${subject.image_url}" class="w-full h-full object-cover" alt="subject">`;
+} else {
+    imgContainer.innerHTML = `<div class="w-full h-full flex items-center justify-center text-blue-600/20"><i class="fa-solid fa-book-open text-6xl"></i></div>`;
+}
 
-  renderHome(1);
-</script>
+      function goHome() {
+        document.getElementById("home-page").classList.remove("hidden");
+        document.getElementById("detail-page").classList.add("hidden");
+      }
+
+      // 3. TAB LOGIC
+      function switchSubTab(type) {
+        document
+          .querySelectorAll(".sub-tab")
+          .forEach((tab) => tab.classList.remove("active"));
+        document.getElementById("btn-" + type).classList.add("active");
+        const container = document.getElementById("tab-content");
+        container.innerHTML = "";
+
+        let units = [];
+        try {
+          units = Array.isArray(activeSubject.unit_list)
+            ? activeSubject.unit_list
+            : JSON.parse(activeSubject.unit_list || "[]");
+        } catch (e) {}
+
+        if (type === "notes") {
+          units.forEach((uName, index) => {
+            container.innerHTML += `
+              <div class="flex justify-between items-center p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] shadow-sm">
+                <div>
+                  <h4 class="font-bold text-sm">Unit ${index + 1}: ${uName}</h4>
+                  <p class="text-[10px] text-slate-400 font-bold uppercase mt-1">₹20 Access</p>
+                </div>
+                <button onclick="triggerPaymentFlow()" class="bg-green-500 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase flex items-center gap-2">
+                  <i class="fa-brands fa-whatsapp"></i> Buy Notes
+                </button>
+              </div>`;
+          });
+        } else if (type === "pyqs") {
+          container.innerHTML = `<div class="py-12 text-center text-slate-400 font-bold italic">Papers are being uploaded...</div>`;
+        } else if (type === "lectures") {
+          units.forEach((uName) => {
+            const yt = `https://www.youtube.com/results?search_query=${encodeURIComponent(activeSubject.subject_name + " " + uName)}`;
+            container.innerHTML += `
+                  <div class="flex justify-between items-center p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem]">
+                    <h4 class="font-bold text-sm">${uName}</h4>
+                    <a href="${yt}" target="_blank" class="bg-red-600 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase">Watch</a>
+                  </div>`;
+          });
+        }
+      }
+
+      // 4. REDIRECTION & MODAL
+      function triggerPaymentFlow() {
+        const modal = document.getElementById("payment-modal");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("payment-modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+
+      document.getElementById("confirm-pay-btn").onclick = () => {
+        // Points to Group Link or Chat instead of direct number
+        window.open(WHATSAPP_GROUP_LINK, "_blank");
+        closeModal();
+      };
+
+      function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle("dark");
+        document.getElementById("theme-icon").className = isDark
+          ? "fa-solid fa-sun text-yellow-500"
+          : "fa-solid fa-moon text-slate-500";
+      }
+
+      renderHome(1);
+    </script>
   </body>
 </html>
