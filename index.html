@@ -280,153 +280,150 @@
       </p>
     </footer>
     <script>
-      // 1. CONFIGURATION
-      const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/J7jmN46udqX8z3V3MOP1Te?mode=gi_t"; // Use Group Link instead of Number
-      const myUPI_ID = "vss@okaxis";
-      const supabaseUrl = 'https://czqiszxboldfuqeeyqiz.supabase.co';
-      const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cWlzenhib2xkZnVxZWV5cWl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDU2MjgsImV4cCI6MjA5MTkyMTYyOH0.HTliya4-GKOxFD3K0pGyPNhexoK-mtd9wpFpWLkYNpU";
+  // 1. CONFIGURATION
+  const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/J7jmN46udqX8z3V3MOP1Te?mode=gi_t"; 
+  const supabaseUrl = 'https://czqiszxboldfuqeeyqiz.supabase.co';
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cWlzenhib2xkZnVxZWV5cWl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDU2MjgsImV4cCI6MjA5MTkyMTYyOH0.HTliya4-GKOxFD3K0pGyPNhexoK-mtd9wpFpWLkYNpU";
 
-      const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-      let activeSubject = null;
-      let pendingLink = "";
+  let activeSubject = null;
 
-      // 2. DASHBOARD
-      async function renderHome(sem) {
-        const grid = document.getElementById("subject-grid");
-        grid.innerHTML = `<div class="col-span-full py-20 text-center"><div class="animate-spin h-10 w-10 border-b-2 border-blue-600 mx-auto"></div></div>`;
+  // 2. DASHBOARD LOGIC
+  async function renderHome(sem) {
+    const grid = document.getElementById("subject-grid");
+    grid.innerHTML = `<div class="col-span-full py-20 text-center"><div class="animate-spin h-10 w-10 border-b-2 border-blue-600 mx-auto"></div></div>`;
 
-        document
-          .querySelectorAll(".tab-btn")
-          .forEach((btn) =>
-            btn.classList.remove("active", "text-slate-900", "dark:text-white"),
-          );
-        document
-          .getElementById(`sem-${sem}`)
-          .classList.add("active", "text-slate-900", "dark:text-white");
+    document.querySelectorAll(".tab-btn").forEach((btn) =>
+      btn.classList.remove("active", "text-slate-900", "dark:text-white")
+    );
+    document.getElementById(`sem-${sem}`).classList.add("active", "text-slate-900", "dark:text-white");
 
-        const { data: Subjects, error } = await _supabase
-          .from("Subjects")
-          .select("*")
-          .eq("semester", sem);
-        if (error) return;
+    const { data: Subjects, error } = await _supabase
+      .from("Subjects")
+      .select("*")
+      .eq("semester", sem);
+    
+    if (error) {
+      console.error("Supabase Error:", error);
+      return;
+    }
 
-        grid.innerHTML = "";
-        Subjects.forEach((sub) => {
-          const card = document.createElement("div");
-          card.className =
-            "subject-card p-8 rounded-[2rem] cursor-pointer bg-white dark:bg-[#0f172a]";
-          card.onclick = () => openSubject(sub);
-          card.innerHTML = `
-            <span class="text-[10px] text-blue-500 font-black uppercase tracking-widest mb-2 block">${sub.paper_code || "B.TECH"}</span>
-            <h3 class="font-bold text-xl mb-4 leading-tight">${sub.subject_name}</h3>
-            <div class="text-blue-600 text-sm font-bold flex items-center gap-2">Study Now <i class="fa-solid fa-chevron-right text-[10px]"></i></div>`;
-          grid.appendChild(card);
-        });
-      }
+    grid.innerHTML = "";
+    Subjects.forEach((sub) => {
+      const card = document.createElement("div");
+      card.className = "subject-card p-8 rounded-[2rem] cursor-pointer bg-white dark:bg-[#0f172a]";
+      card.onclick = () => openSubject(sub);
+      card.innerHTML = `
+        <span class="text-[10px] text-blue-500 font-black uppercase tracking-widest mb-2 block">${sub.paper_code || "B.TECH"}</span>
+        <h3 class="font-bold text-xl mb-4 leading-tight">${sub.subject_name}</h3>
+        <div class="text-blue-600 text-sm font-bold flex items-center gap-2">Study Now <i class="fa-solid fa-chevron-right text-[10px]"></i></div>`;
+      grid.appendChild(card);
+    });
+  }
 
-      function openSubject(subject) {
-        activeSubject = subject;
-        document.getElementById("home-page").classList.add("hidden");
-        document.getElementById("detail-page").classList.remove("hidden");
-        document.getElementById("detail-title").innerText =
-          subject.subject_name;
+  // 3. SUBJECT DETAIL LOGIC
+  function openSubject(subject) {
+    activeSubject = subject;
+    document.getElementById("home-page").classList.add("hidden");
+    document.getElementById("detail-page").classList.remove("hidden");
+    document.getElementById("detail-title").innerText = subject.subject_name;
 
-        // Image Handling (Fix for point 2)
-        const imgContainer = document.getElementById("subject-image-container");
-        if (subject.image_url) {
-          imgContainer.innerHTML = `<img src="${subject.image_url}" class="w-full h-full object-cover" alt="subject">`;
-        } else {
-          imgContainer.innerHTML = `<div class="w-full h-full flex items-center justify-center text-blue-600/20"><i class="fa-solid fa-book-open text-8xl"></i></div>`;
-        }
+    const imgContainer = document.getElementById("subject-image-container");
+    if (subject.image_url) {
+      imgContainer.innerHTML = `<img src="${subject.image_url}" class="w-full h-full object-cover" alt="subject">`;
+    } else {
+      imgContainer.innerHTML = `<div class="w-full h-full flex items-center justify-center text-blue-600/20"><i class="fa-solid fa-book-open text-6xl"></i></div>`;
+    }
 
-        switchSubTab("notes");
-        window.scrollTo(0, 0);
-      }
-      // This goes inside your openSubject(subject) function
-const imgContainer = document.getElementById("subject-image-container");
-if(subject.image_url) {
-    // 'object-cover' is the secret to keeping it perfectly sized
-    imgContainer.innerHTML = `<img src="${subject.image_url}" class="w-full h-full object-cover" alt="subject">`;
-} else {
-    imgContainer.innerHTML = `<div class="w-full h-full flex items-center justify-center text-blue-600/20"><i class="fa-solid fa-book-open text-6xl"></i></div>`;
-}
+    switchSubTab("notes");
+    window.scrollTo(0, 0);
+  }
 
-      function goHome() {
-        document.getElementById("home-page").classList.remove("hidden");
-        document.getElementById("detail-page").classList.add("hidden");
-      }
+  function goHome() {
+    document.getElementById("home-page").classList.remove("hidden");
+    document.getElementById("detail-page").classList.add("hidden");
+    window.scrollTo(0, 0);
+  }
 
-      // 3. TAB LOGIC
-      function switchSubTab(type) {
-        document
-          .querySelectorAll(".sub-tab")
-          .forEach((tab) => tab.classList.remove("active"));
-        document.getElementById("btn-" + type).classList.add("active");
-        const container = document.getElementById("tab-content");
-        container.innerHTML = "";
+  // 4. TAB & CONTENT LOGIC
+  function switchSubTab(type) {
+    document.querySelectorAll(".sub-tab").forEach((tab) => tab.classList.remove("active"));
+    document.getElementById("btn-" + type).classList.add("active");
+    const container = document.getElementById("tab-content");
+    container.innerHTML = "";
 
-        let units = [];
-        try {
-          units = Array.isArray(activeSubject.unit_list)
-            ? activeSubject.unit_list
-            : JSON.parse(activeSubject.unit_list || "[]");
-        } catch (e) {}
+    let units = [];
+    try {
+      units = Array.isArray(activeSubject.unit_list)
+        ? activeSubject.unit_list
+        : JSON.parse(activeSubject.unit_list || "[]");
+    } catch (e) {
+      console.error("Error parsing units:", e);
+    }
 
-        if (type === "notes") {
-          units.forEach((uName, index) => {
-            container.innerHTML += `
-              <div class="flex justify-between items-center p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] shadow-sm">
-                <div>
-                  <h4 class="font-bold text-sm">Unit ${index + 1}: ${uName}</h4>
-                  <p class="text-[10px] text-slate-400 font-bold uppercase mt-1">₹20 Access</p>
-                </div>
-                <button onclick="triggerPaymentFlow()" class="bg-green-500 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase flex items-center gap-2">
-                  <i class="fa-brands fa-whatsapp"></i> Buy Notes
-                </button>
-              </div>`;
-          });
-        } else if (type === "pyqs") {
-          container.innerHTML = `<div class="py-12 text-center text-slate-400 font-bold italic">Papers are being uploaded...</div>`;
-        } else if (type === "lectures") {
-          units.forEach((uName) => {
-            const yt = `https://www.youtube.com/results?search_query=${encodeURIComponent(activeSubject.subject_name + " " + uName)}`;
-            container.innerHTML += `
-                  <div class="flex justify-between items-center p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem]">
-                    <h4 class="font-bold text-sm">${uName}</h4>
-                    <a href="${yt}" target="_blank" class="bg-red-600 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase">Watch</a>
-                  </div>`;
-          });
-        }
-      }
+    if (type === "notes") {
+      units.forEach((uName, index) => {
+        container.innerHTML += `
+          <div class="flex justify-between items-center p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] shadow-sm">
+            <div>
+              <h4 class="font-bold text-sm">Unit ${index + 1}: ${uName}</h4>
+              <p class="text-[10px] text-slate-400 font-bold uppercase mt-1">₹20 Access</p>
+            </div>
+            <button onclick="triggerPaymentFlow()" class="bg-green-500 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase flex items-center gap-2 transition-all active:scale-95">
+              <i class="fa-brands fa-whatsapp"></i> Buy Notes
+            </button>
+          </div>`;
+      });
+    } else if (type === "pyqs") {
+      container.innerHTML = `<div class="py-12 text-center text-slate-400 font-bold italic">Papers are being uploaded...</div>`;
+    } else if (type === "lectures") {
+      units.forEach((uName) => {
+        const yt = `https://www.youtube.com/results?search_query=${encodeURIComponent(activeSubject.subject_name + " " + uName)}`;
+        container.innerHTML += `
+          <div class="flex justify-between items-center p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem]">
+            <h4 class="font-bold text-sm">${uName}</h4>
+            <a href="${yt}" target="_blank" class="bg-red-600 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase">Watch</a>
+          </div>`;
+      });
+    }
+  }
 
-      // 4. REDIRECTION & MODAL
-      function triggerPaymentFlow() {
-        const modal = document.getElementById("payment-modal");
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
-      }
+  // 5. MODAL & REDIRECTION LOGIC
+  function triggerPaymentFlow() {
+    const modal = document.getElementById("payment-modal");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+  }
 
-      function closeModal() {
-        const modal = document.getElementById("payment-modal");
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
-      }
+  function closeModal() {
+    const modal = document.getElementById("payment-modal");
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  }
 
-      document.getElementById("confirm-pay-btn").onclick = () => {
-        // Points to Group Link or Chat instead of direct number
-        window.open(WHATSAPP_GROUP_LINK, "_blank");
-        closeModal();
-      };
+  // Fixed Redirection Logic
+  document.getElementById("confirm-pay-btn").onclick = function() {
+    // Attempt 1: Open in new tab
+    const win = window.open(WHATSAPP_GROUP_LINK, "_blank");
+    
+    // Attempt 2: Fallback if Attempt 1 is blocked by browser
+    if (!win || win.closed || typeof win.closed == 'undefined') {
+        window.location.href = WHATSAPP_GROUP_LINK;
+    }
+    
+    closeModal();
+  };
 
-      function toggleTheme() {
-        const isDark = document.documentElement.classList.toggle("dark");
-        document.getElementById("theme-icon").className = isDark
-          ? "fa-solid fa-sun text-yellow-500"
-          : "fa-solid fa-moon text-slate-500";
-      }
+  function toggleTheme() {
+    const isDark = document.documentElement.classList.toggle("dark");
+    document.getElementById("theme-icon").className = isDark
+      ? "fa-solid fa-sun text-yellow-500"
+      : "fa-solid fa-moon text-slate-500";
+  }
 
-      renderHome(1);
-    </script>
+  // 6. INITIALIZATION
+  renderHome(1);
+</script>
   </body>
 </html>
