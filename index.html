@@ -281,7 +281,7 @@
     </footer>
     <script>
   // 1. CONFIGURATION
-  const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/J7jmN46udqX8z3V3MOP1Te?mode=gi_t"; 
+  const WHATSAPP_GROUP_LINK = "https://wa.me/917668054747?text=I%20want%20to%20buy%20Unit%20Notes"; 
   const supabaseUrl = 'https://czqiszxboldfuqeeyqiz.supabase.co';
   const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cWlzenhib2xkZnVxZWV5cWl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDU2MjgsImV4cCI6MjA5MTkyMTYyOH0.HTliya4-GKOxFD3K0pGyPNhexoK-mtd9wpFpWLkYNpU";
 
@@ -421,7 +421,31 @@
       ? "fa-solid fa-sun text-yellow-500"
       : "fa-solid fa-moon text-slate-500";
   }
+// Fixed Redirection Logic with Automatic Message
+document.getElementById("confirm-pay-btn").onclick = function() {
+    // 1. Get the subject details dynamically
+    const subjectName = activeSubject ? activeSubject.subject_name : "Notes";
+    const paperCode = activeSubject ? (activeSubject.paper_code || "B.TECH") : "";
 
+    // 2. Create the automatic message (Encoded for URL)
+    // This says: "Hi! I want to buy notes for [Subject Name]. My Gmail is: "
+    const baseMessage = `Hi! I want to buy notes for ${subjectName} (${paperCode}). My Gmail ID is: `;
+    const encodedMessage = encodeURIComponent(baseMessage);
+
+    // 3. Define the Personal DM Link (Replace 91XXXXXXXXXX with your number)
+    // Note: Use a personal link (wa.me) to stop the "link leak" problem we discussed!
+    const personalWALink = `https://wa.me/91XXXXXXXXXX?text=${encodedMessage}`;
+
+    // 4. Attempt to Redirect
+    const win = window.open(personalWALink, "_blank");
+    
+    // Fallback if popup is blocked
+    if (!win || win.closed || typeof win.closed == 'undefined') {
+        window.location.href = personalWALink;
+    }
+    
+    closeModal();
+};
   // 6. INITIALIZATION
   renderHome(1);
 </script>
