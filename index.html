@@ -431,7 +431,7 @@ document.getElementById("confirm-pay-btn").onclick = function() {
     const myNumber = "917668054747"; // REPLACE with your number
 
     // 2. Create ONE clean message (No repetition)
-    const finalMessage = `Hi! I want to buy notes for ${subjectName} ${paperCode ? '('+paperCode+')' : ''}.\n\nI'm paying ₹${amount} to UPI: ${myUPI}\n\nMy Gmail ID is: `;
+    const finalMessage = `Hi! I want to buy notes for ${unit_list} ${paperCode ? '('+paperCode+')' : ''}.\n\nI'm paying ₹${amount} to UPI: ${myUPI}\n\nMy Gmail ID is: `;
 
     // 3. Links
     const upiLink = `upi://pay?pa=${myUPI}&pn=EduVault&am=${amount}&cu=INR&tn=${encodeURIComponent(subjectName)}`;
