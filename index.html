@@ -421,30 +421,30 @@
       ? "fa-solid fa-sun text-yellow-500"
       : "fa-solid fa-moon text-slate-500";
   }
-      
+      //whatsapp auto messsage
 document.getElementById("confirm-pay-btn").onclick = function() {
+    // 1. Data Setup
     const subjectName = activeSubject ? activeSubject.subject_name : "Notes";
-    const amount = "21"; // Your fixed price
-    const myUPI = "7668054747@ibl"; // Your UPI ID
-    const myName = "Sumit EduVault"; // Your Name/Business Name
+    const paperCode = activeSubject ? (activeSubject.paper_code || "") : "";
+    const amount = "21"; 
+    const myUPI = "7668054747@ibl"; // Verified UPI
+    const myNumber = "917668054747"; // REPLACE with your number
 
-    // 1. Create the UPI Deep Link
-    // pa = Payment Address, pn = Payee Name, am = Amount, tn = Transaction Note
-    const upiLink = `upi://pay?pa=${myUPI}&pn=${encodeURIComponent(myName)}&am=${amount}&cu=INR&tn=${encodeURIComponent(subjectName + " Notes")}`;
+    // 2. Create ONE clean message (No repetition)
+    const finalMessage = `Hi! I want to buy notes for ${subjectName} ${paperCode ? '('+paperCode+')' : ''}.\n\nI'm paying ₹${amount} to UPI: ${myUPI}\n\nMy Gmail ID is: `;
 
-    // 2. Create the WhatsApp Backup Message
-    const waBaseMessage = `Hi! I want to buy notes for ${subjectName}.\n\nI am making a payment of ₹${amount} to UPI: ${myUPI}\n\nMy Gmail ID is: `;
-    const waLink = `https://wa.me/917668054747?text=${encodeURIComponent(waBaseMessage)}`;
+    // 3. Links
+    const upiLink = `upi://pay?pa=${myUPI}&pn=EduVault&am=${amount}&cu=INR&tn=${encodeURIComponent(subjectName)}`;
+    const waLink = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalMessage)}`;
 
-    // 3. Execution Flow
-    // We try to trigger the UPI app first. 
-    // If the device supports UPI deep-linking, the app will open.
+    // 4. Execution
+    // First, try to open the UPI app
     window.location.href = upiLink;
 
-    // After 2 seconds, we also redirect to WhatsApp so they can send the screenshot
+    // After a short delay, move to WhatsApp so they can send the receipt
     setTimeout(() => {
         window.location.href = waLink;
-    }, 2000);
+    }, 1500);
 
     closeModal();
 };
