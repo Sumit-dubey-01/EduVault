@@ -134,7 +134,7 @@
               2
             </div>
             <p class="text-sm font-medium">
-              Send **₹21** and share the screenshot in chat.
+              Send **₹20** and share the screenshot in chat.
             </p>
           </div>
           <div class="flex items-center gap-4">
@@ -281,7 +281,7 @@
     </footer>
     <script>
   // 1. CONFIGURATION
-  const WHATSAPP_GROUP_LINK = "https://wa.me/917668054747?text=I%20want%20to%20buy%20Unit%20Notes"; 
+  const WHATSAPP_GROUP_LINK = "https://wa.me/7668054747?text=I'm%20interested%20in%20your%20services";
   const supabaseUrl = 'https://czqiszxboldfuqeeyqiz.supabase.co';
   const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6cWlzenhib2xkZnVxZWV5cWl6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzNDU2MjgsImV4cCI6MjA5MTkyMTYyOH0.HTliya4-GKOxFD3K0pGyPNhexoK-mtd9wpFpWLkYNpU";
 
@@ -292,7 +292,7 @@
   // 2. DASHBOARD LOGIC
   async function renderHome(sem) {
     const grid = document.getElementById("subject-grid");
-    grid.innerHTML = `<div class="col-span-full py-21 text-center"><div class="animate-spin h-10 w-10 border-b-2 border-blue-600 mx-auto"></div></div>`;
+    grid.innerHTML = `<div class="col-span-full py-20 text-center"><div class="animate-spin h-10 w-10 border-b-2 border-blue-600 mx-auto"></div></div>`;
 
     document.querySelectorAll(".tab-btn").forEach((btn) =>
       btn.classList.remove("active", "text-slate-900", "dark:text-white")
@@ -368,7 +368,7 @@
           <div class="flex justify-between items-center p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[1.5rem] shadow-sm">
             <div>
               <h4 class="font-bold text-sm">Unit ${index + 1}: ${uName}</h4>
-              <p class="text-[10px] text-slate-400 font-bold uppercase mt-1">₹21 Access</p>
+              <p class="text-[10px] text-slate-400 font-bold uppercase mt-1">₹20 Access</p>
             </div>
             <button onclick="triggerPaymentFlow()" class="bg-green-500 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase flex items-center gap-2 transition-all active:scale-95">
               <i class="fa-brands fa-whatsapp"></i> Buy Notes
@@ -421,33 +421,7 @@
       ? "fa-solid fa-sun text-yellow-500"
       : "fa-solid fa-moon text-slate-500";
   }
-      //whatsapp auto messsage
-document.getElementById("confirm-pay-btn").onclick = function() {
-    // 1. Data Setup
-    const subjectName = activeSubject ? activeSubject.subject_name : "Notes";
-    const paperCode = activeSubject ? (activeSubject.paper_code || "") : "";
-    const amount = "21"; 
-    const myUPI = "7668054747@ibl"; // Verified UPI
-    const myNumber = "917668054747"; // REPLACE with your number
 
-    // 2. Create ONE clean message (No repetition)
-    const finalMessage = `Hi! I want to buy notes for ${subject_name} ${paperCode ? '('+paperCode+')' : ''}.\n\nI'm paying ₹${amount} to UPI: ${myUPI}\n\nMy Gmail ID is: `;
-
-    // 3. Links
-    const upiLink = `upi://pay?pa=${myUPI}&pn=EduVault&am=${amount}&cu=INR&tn=${encodeURIComponent(subjectName)}`;
-    const waLink = `https://wa.me/${myNumber}?text=${encodeURIComponent(finalMessage)}`;
-
-    // 4. Execution
-    // First, try to open the UPI app
-    window.location.href = upiLink;
-
-    // After a short delay, move to WhatsApp so they can send the receipt
-    setTimeout(() => {
-        window.location.href = waLink;
-    }, 1500);
-
-    closeModal();
-};
   // 6. INITIALIZATION
   renderHome(1);
 </script>
