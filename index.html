@@ -132,7 +132,7 @@
       }
 
       document.getElementById("confirm-pay-btn").onclick = function() {
-        const msg = `Hi! I want to buy the notes for: ${selectedUnit}.\n I'm paying ₹21 to UPI: 7668054747@ibl.\n My Gmail ID is:`;
+        const msg = `Hi! I want to buy the notes for: ${selectedUnit}.\n I'm paying ₹21 to UPI: 7668054747@ibl\n My Gmail ID is:`;
         window.location.href = `whatsapp://send?phone=${WA_NUMBER}&text=${encodeURIComponent(msg)}`;
         setTimeout(() => { if (document.hasFocus()) window.location.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`; }, 1000);
         closeModal();
